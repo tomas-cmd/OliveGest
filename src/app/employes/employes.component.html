@@ -1,0 +1,35 @@
+<div class="display-area p-3">
+    <h3>Registo de presenças</h3>
+
+
+    <p-toolbar styleClass="mb-4 gap-2">
+        <ng-template pTemplate="left">
+            <p-dropdown [options]="months" [(ngModel)]="selectedMonth" optionLabel="name" optionValue="code"(ngModelChange)="onMonthChange()"></p-dropdown>
+        </ng-template>
+    </p-toolbar>
+
+    <p-table 
+    [value]="employees">
+        <ng-template pTemplate="header">
+            <tr>
+              <th>Empregado</th>
+              <th *ngFor="let day of daysInMonth">{{day}}</th>
+              <th></th>
+            </tr>
+          </ng-template>
+
+
+          <ng-template pTemplate="body" let-employees let-i="index">
+            <tr>
+                <td>{{employees.name}}</td>
+                <td *ngFor="let day of daysInMonth; let j = index">
+                    <p-inputNumber inputStyleClass="form-control-inputnumber" [(ngModel)]="inputValues[i]" mode="decimal"></p-inputNumber>
+                </td>
+                <td><button pButton pRipple icon="pi pi-check" class="p-button p-button-success mr-2" (click)="validateHours(employees)"></button></td>
+              </tr>
+          </ng-template>
+    </p-table>
+
+
+
+</div>

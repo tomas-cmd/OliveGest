@@ -1,0 +1,47 @@
+<div class="display-area p-3">
+    <div class="col-sm-12 col-xs-12">
+      <div class="content-wrapper">
+        <h3>Lista Clientes Olimontes</h3>
+        <div class="search-container mb-3">
+          <div class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text" placeholder="Pesquisar" />
+          </div>
+          <button type="button" class="p-button p-button-rounded p-button-success p-ml-2" (click)="addHero()">Adicionar</button>
+        </div>
+        <p-table [value]="heroes"
+          [paginator]="true"
+          [rows]="5"
+          [rowsPerPageOptions]="[5,10,15]"
+          [tableStyle]="{'min-width': '10rem'}">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Nome</th>
+              <th>Morada</th>
+              <th>Nif</th>
+              <th></th>
+              
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-hero>
+            <tr>
+              <td>{{hero.nome}}</td>
+              <td>{{hero.morada}}</td>
+              <td>{{hero.nif}}</td>
+              <td>
+                <button type="button" class="p-button p-button-rounded p-button-info p-mr-2" (click)="showDetails(hero)">Mais Info</button>
+                <button type="button" class="p-button p-button-rounded p-button-danger" (click)="deleteHero(hero)">Eliminar</button>
+               </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  
+  
+  
+  

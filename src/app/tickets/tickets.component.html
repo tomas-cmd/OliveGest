@@ -1,0 +1,134 @@
+<p-toast></p-toast>
+<div class="display-area p-3">
+    <div class="col-sm-12 col-xs-12">
+      <div class="content-wrapper">
+        <h3>Registo de Entradas</h3>
+
+
+          <p-toolbar styleClass="mb-4 gap-2">
+              <ng-template pTemplate="left">
+                <button pButton pRipple label="Adicionar" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+              </ng-template>
+
+              <ng-template pTemplate="right">
+                <p-fileUpload mode="basic" accept="image/*" label="Import" chooseLabel="Import" class="mr-2 inline-block" style="margin-right: 10px;"></p-fileUpload>
+                <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help mr-2"></button>
+              </ng-template>
+          </p-toolbar>
+
+
+        <p-table #dt 
+          [value]="tickets"
+          dataKey="id"
+          [paginator]="true"
+          [rows]="5"
+          [loading]="loading"
+          [tableStyle]="{'min-width': '10rem'}"
+          [globalFilterFields]="['estado']"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+          <ng-template pTemplate="caption">
+            <div class="p-d-flex p-ai-center p-jc-between">
+              
+                <span class="p-input-icon-left filter-input">
+                  <i class="pi pi-search"></i>
+                  <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Pesquisa" />
+              </span>            
+          </div>
+        </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Cliente</th>
+              <th pSortableColumn="data" style="width:20%">Data <p-sortIcon field="data"></p-sortIcon></th>
+              <th pSortableColumn="quantAzeitona" style="width:20%">Quantidade de azeitona (kg) <p-sortIcon field="quantAzeitona"></p-sortIcon></th>
+              <th>Estado</th>
+              <th>Classificação</th>
+              <th></th>
+              
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-ticket>
+            <tr>
+              <td>{{ticket.clientId}}</td>
+              <td>{{ticket.data}}</td>
+              <td>{{ticket.quantAzeitona}}</td>
+              <td>{{ticket.estado}}</td>
+              <td>{{ticket.classificacao}}</td>
+              <td>
+                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editTicket(ticket)"></button>
+                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteTicket(ticket)"></button>
+               </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                Total de {{tickets ? tickets.length : 0 }} tickets.
+            </div>
+        </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+
+  <p-dialog [(visible)]="ticketDialog" [style]="{width: '450px'}" header="Detalhes Ticket" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content">
+        <div class="p-field">
+            <label for="clientId">Id Cliente</label>
+            <input type="text" pInputText id="clientId" [(ngModel)]="ticket.clientId" required autofocus />
+            <small class="p-invalid" *ngIf="submitted && !ticket.clientId">Id is required.</small>
+        </div>
+
+        <div class="p-formgrid p-grid">
+          <div class="p-field p-col">
+              <label for="quantAzeitona">Quantidade de azeitona (kg)</label>
+              <p-inputNumber id="quantAzeitona" [(ngModel)]="ticket.quantAzeitona"></p-inputNumber>
+          </div>
+      </div>
+        <div class="p-field">
+            <label for="estado">Estado</label>
+            <input type="text" pInputText id="Estado" [(ngModel)]="ticket.estado" required autofocus />
+            <small class="p-invalid" *ngIf="submitted && !ticket.estado">estado is required.</small>
+        </div>
+
+
+        <div class="p-field">
+          <label for="classificacao">Classificação</label>
+          <input type="text" pInputText id="classificacao" [(ngModel)]="ticket.classificacao" required autofocus />
+          <small class="p-invalid" *ngIf="submitted && !ticket.classificacao">classificacao is required.</small>
+      </div>
+
+
+
+
+        <!--<div class="p-field">
+            <label class="p-mb-3">Classificação</label>
+            <div class="p-formgrid p-grid">
+                <div class="p-field-radiobutton p-col-6">
+                    <p-radioButton id="category1" name="classificacao" value="Accessories" [(ngModel)]="ticket.classificacao"></p-radioButton>
+                    <label for="category1">Accessories</label>
+                </div>
+                <div class="p-field-radiobutton p-col-6">
+                    <p-radioButton id="category2" name="classificacao" value="Clothing" [(ngModel)]="ticket.classificacao"></p-radioButton>
+                    <label for="category2">Clothing</label>
+                </div>
+                <div class="p-field-radiobutton p-col-6">
+                    <p-radioButton id="category3" name="classificacao" value="Electronics" [(ngModel)]="ticket.classificacao"></p-radioButton>
+                    <label for="category3">Electronics</label>
+                </div>
+                <div class="p-field-radiobutton p-col-6">
+                    <p-radioButton id="category4" name="classificacao" value="Fitness" [(ngModel)]="ticket.classificacao"></p-radioButton>
+                    <label for="category4">Fitness</label>
+                </div>
+            </div>
+        </div>-->
+
+        
+    </ng-template>
+    
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveTicket()"></button>
+    </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+  
